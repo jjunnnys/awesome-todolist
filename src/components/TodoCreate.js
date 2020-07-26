@@ -122,4 +122,4 @@ function TodoCrate() {
   );
 }
 
-export default TodoCrate;
+export default React.memo(TodoCrate);
