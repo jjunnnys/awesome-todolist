@@ -1,6 +1,7 @@
 import React from 'react';
 import { CheckOutlined, DeleteOutlined } from '@ant-design/icons';
 import styled, { css } from 'styled-components';
+import { useTodoDispatch } from '../TodoContenxt';
 
 // 우측에 나타나는 쓰레기통 보여주는 컴포넌트
 const Remove = styled.div`
@@ -59,12 +60,25 @@ const TodoItemBlock = styled.div`
 `;
 
 const TodoItem = ({ id, done, text }) => {
+  const dispatch = useTodoDispatch();
+  const onToggle = () =>
+    dispatch({
+      type: 'TOGGLE',
+      id,
+    });
+  const onRemove = () =>
+    dispatch({
+      type: 'REMOVE',
+      id,
+    });
   return (
     <div>
       <TodoItemBlock>
-        <CheckCircle done={done}>{done && <CheckOutlined />}</CheckCircle>
+        <CheckCircle done={done} onClick={onToggle}>
+          {done && <CheckOutlined />}
+        </CheckCircle>
         <Text done={done}>{text}</Text>
-        <Remove>
+        <Remove onClick={onRemove}>
           <DeleteOutlined />
         </Remove>
       </TodoItemBlock>
@@ -72,4 +86,4 @@ const TodoItem = ({ id, done, text }) => {
   );
 };
 
-export default TodoItem;
+export default React.memo(TodoItem);
